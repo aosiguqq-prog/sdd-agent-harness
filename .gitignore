@@ -1,0 +1,32 @@
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+*.egg-info/
+build/
+dist/
+.coverage
+htmlcov/
+
+# Node
+node_modules/
+coverage/
+
+# Claude Code local settings
+.claude/settings.local.json
+
+# Engine temp files
+.state-*.tmp
+.todo-*.tmp
+
+# Products other than the template and the sample live in their own repositories
+products/*
+!products/README.md
+!products/_template/
+!products/todo-cli/

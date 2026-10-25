@@ -1,0 +1,16 @@
+{
+  "_comment": "Post-edit quality-check rules: file-name glob -> command ({file} is replaced with the edited file's absolute path). Language-agnostic; add or remove rules as needed. Commands that cannot run (tool not installed) are skipped silently.",
+  "rules": [
+    {
+      "match": "*.py",
+      "label": "py-syntax",
+      "command": "python3 -m py_compile {file}",
+      "_note": "Minimal check that works offline (syntax only). With ruff/mypy installed, switch to the stronger rules in quality-checks.sample.json."
+    },
+    {
+      "match": "*.json",
+      "label": "json-valid",
+      "command": "python3 -c \"import json,sys; json.load(open(sys.argv[1], encoding='utf-8'))\" {file}"
+    }
+  ]
+}

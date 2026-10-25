@@ -1,0 +1,21 @@
+{
+  "product": "todo-cli",
+  "created": "2026-06-21",
+  "pipeline_version": 1,
+  "current_stage": "done",
+  "stack": "python",
+  "stages": {
+    "0-bootstrap":   { "status": "done",        "gate_passed": true,  "outputs": ["PROJECT.md", "sdd-state.json"] },
+    "1-discovery":   { "status": "done",        "gate_passed": true,  "outputs": ["discovery.md"] },
+    "2-bdd":         { "status": "done",        "gate_passed": true,  "outputs": ["features/*.feature"] },
+    "3-requirements":{ "status": "done",        "gate_passed": true,  "outputs": ["requirements.md"] },
+    "4-spec":        { "status": "done",        "gate_passed": true,  "outputs": ["spec/functional.md","spec/data.md","spec/cli.md","spec/nfr.md"] },
+    "5-architecture":{ "status": "done",        "gate_passed": true,  "outputs": ["architecture.md"] },
+    "6-implement":   { "status": "done",        "gate_passed": true,  "outputs": ["src/","tests/"], "tests": "31 passed", "coverage": "92.3%", "note": "behave unavailable offline; CLI tests act as the acceptance layer" },
+    "7-review":      { "status": "done",        "gate_passed": true,  "outputs": ["review-report.md"], "blocking": 0 },
+    "8-release":     { "status": "done",        "gate_passed": true,  "outputs": ["release-notes.md","CHANGELOG.md"], "version": "v0.1.0" }
+  },
+  "traceability": {
+    "note": "Maintain the FR/NFR <-> scenario <-> SPEC <-> TEST chain; any break fails the gate"
+  }
+}

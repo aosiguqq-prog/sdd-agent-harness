@@ -1,0 +1,116 @@
+# SDD pipeline declaration v2 — autonomous production-line engine
+# To change the process, change only this file. The orchestrator reads it to decide
+# who works next, what must be produced, and when to advance or pause.
+# v2 vs v1: added intake / orchestrator / qa-test / evaluator roles; gates are auto or human;
+# added the change mode; the only mandatory human gate is the release preview.
+
+version: 2
+name: autonomous-sdd-line
+
+principles:
+  - "Blackboard collaboration: roles hand over through files + state, never by chatting (see CLAUDE.md)"
+  - "Separation of powers: advancing (orchestrator) / quality (qa-test, reviewers) / production (other roles) are kept apart"
+  - "Autonomous but under control: run continuously, protected by live logging + budget cap + stop-when-unsure + release gate"
+  - "Files are contracts; everything is traceable and resumable"
+
+autonomy:
+  default: continuous             # advance without interrupting by default
+  human_gates: [release-preview]  # the only mandatory human gate
+  pause_conditions:               # any of these pauses the line and asks a human
+    - requirements too ambiguous
+    - tests failing repeatedly
+    - review has a blocker
+    - budget exceeded
+
+modes:
+  greenfield: build from scratch through the full pipeline
+  change: change an existing product; impact analysis over the traceability chain, re-run only the affected stages, then regression (see skills/change-management)
+
+coordinator:
+  agent: orchestrator             # hub: dispatches, decides, guards gates and budget, writes activity-log
+
+stages:
+  - id: 0-bootstrap
+    name: Bootstrap
+    agent: orchestrator
+    outputs: [PROJECT.md, sdd-state.json, activity-log.md]
+    gate: { type: auto, checklist: [product skeleton ready, state and activity log initialised] }
+
+  - id: 1-intake
+    name: Intake (clarify until the bar is met)
+    agent: intake
+    skills: [requirement-intake]
+    outputs: [discovery.md]
+    gate:
+      type: auto        # judged by the clarity checklist; pauses for a human if too ambiguous
+      checklist: [clarity checklist met or customer said go, scope in/out clear, success criteria measurable]
+
+  - id: 2-bdd
+    name: BDD scenarios (Gherkin)
+    agent: gherkin-author
+    skills: [bdd-gherkin]
+    inputs: [discovery.md]
+    outputs: ["features/*.feature"]
+    gate: { type: auto, checklist: [happy path for every core capability, negative scenarios for key errors] }
+
+  - id: 3-requirements
+    name: Requirements
+    agent: requirements-engineer
+    inputs: ["features/*.feature", discovery.md]
+    outputs: [requirements.md]
+    gate: { type: auto, checklist: [every requirement traceable to a scenario, NFRs complete, no contradictions] }
+
+  - id: 4-spec
+    name: Full specification (split into volumes)
+    agent: spec-architect
+    skills: [spec-authoring]
+    inputs: [requirements.md, "features/*.feature"]
+    outputs: ["spec/*.md"]
+    gate: { type: auto, checklist: [unambiguous and testable, SPEC <-> FR aligned both ways] }
+
+  - id: 5-architecture
+    name: Stack selection and architecture
+    agent: stack-advisor
+    inputs: [spec/, requirements.md]
+    outputs: [architecture.md]
+    gate: { type: auto, checklist: [stack selected or custom stack justified, module / directory layout final] }
+
+  - id: 6-implement
+    name: TDD implementation + independent QA
+    loop:
+      - agent: test-author     # RED
+      - agent: implementer     # GREEN
+      - agent: refactorer      # REFACTOR
+    verify_by: qa-test         # independent QA guards the green bar (including regression in change mode)
+    skills: [tdd-loop]
+    inputs: [spec/, architecture.md, "features/*.feature"]
+    outputs: [src/, tests/]
+    gate: { type: auto, checklist: [all tests green, coverage threshold met, every scenario covered] }
+
+  - id: 7-review
+    name: Review (code + security)
+    parallel: [code-reviewer, security-reviewer]
+    inputs: [src/, tests/, spec/]
+    outputs: [review-report.md]
+    gate: { type: auto, checklist: [no blockers, implementation matches spec, security passed] }
+    # a blocker triggers a pause condition; fixes go back to implementation, then review again
+
+  - id: 8-evaluation
+    name: Independent evaluation and report
+    agent: evaluator
+    inputs: [sdd-state.json, activity-log.md, spec/, review-report.md]
+    outputs: [evaluation-report.md]
+    gate: { type: auto, checklist: [process monitoring summarised, quality assessed, goal attainment judged] }
+
+  - id: 9-release
+    name: Release / deploy
+    agent: release-manager
+    inputs: [src/, evaluation-report.md]
+    outputs: [release-notes.md, CHANGELOG.md]
+    gate:
+      type: human               # the only mandatory human gate
+      human_gate: release-preview
+      checklist: [customer previewed the product and approved, release target decided (GitHub source push first), version decided]
+
+# Change mode: no need to start from 0. The orchestrator picks the entry stage from the impact analysis,
+# usually 3-requirements or 4-spec, re-runs the affected stages -> 6 implement -> qa-test regression -> 7/8 -> 9 release a new version.

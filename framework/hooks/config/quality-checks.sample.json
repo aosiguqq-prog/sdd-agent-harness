@@ -1,0 +1,12 @@
+{
+  "_comment": "Examples of stronger checks (install the tools first). Copy the rules you need into quality-checks.json; several languages can coexist.",
+  "rules": [
+    { "match": "*.py",  "label": "ruff",     "command": "ruff check {file}" },
+    { "match": "*.py",  "label": "mypy",     "command": "mypy {file}" },
+    { "match": "*.ts",  "label": "tsc",      "command": "npx tsc --noEmit {file}" },
+    { "match": "*.tsx", "label": "eslint",   "command": "npx eslint {file}" },
+    { "match": "*.js",  "label": "node-check","command": "node --check {file}" },
+    { "match": "*.go",  "label": "go-vet",   "command": "gofmt -l {file}" },
+    { "match": "*.rs",  "label": "rustfmt",  "command": "rustfmt --check {file}" }
+  ]
+}

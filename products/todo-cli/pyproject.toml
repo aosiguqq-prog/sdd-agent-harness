@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "todo-cli"
+version = "0.1.0"
+description = "Command-line to-do list (first validation product of the SDD framework)"
+requires-python = ">=3.9"
+dependencies = []   # standard library only (NFR-004)
+
+[project.scripts]
+todo = "todo.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+# Tests use the standard-library unittest (no pytest needed offline).
+# Run: PYTHONPATH=src python3 -m unittest discover -s tests
