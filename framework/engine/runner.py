@@ -8,8 +8,6 @@ Responsibilities (mirroring the orchestrator role and the autonomy policy in CLA
 """
 from __future__ import annotations
 
-from pathlib import Path
-
 from .driver import Driver, ManualDriver
 from .state import State
 

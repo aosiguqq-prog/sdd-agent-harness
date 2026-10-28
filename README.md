@@ -1,5 +1,7 @@
 # SDD Agent Harness
 
+[![CI](https://github.com/aosiguqq-prog/sdd-agent-harness/actions/workflows/ci.yml/badge.svg)](https://github.com/aosiguqq-prog/sdd-agent-harness/actions/workflows/ci.yml)
+
 **A multi-agent harness that turns a one-line product idea into tested, reviewed, released software — through a gated, spec-driven pipeline of specialised AI roles.**
 
 Instead of asking one AI assistant to "just write the code", the harness splits software delivery into stages (intake → BDD scenarios → requirements → specification → architecture → TDD → review → evaluation → release). Each stage is owned by a dedicated sub-agent with a narrow responsibility, explicit inputs and an output contract. Agents never chat with each other: they collaborate through files on a shared *blackboard*, and a deterministic engine decides when the line may advance.

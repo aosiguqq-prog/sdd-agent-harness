@@ -85,7 +85,7 @@ class TestDelete(unittest.TestCase):
     # FR-002 ids are not reused after deletion
     def test_deleted_id_not_reused(self):
         tl = TodoList()
-        a = tl.add("Buy milk")
+        tl.add("Buy milk")
         b = tl.add("Pay rent")
         tl.delete(b.id)
         c = tl.add("Buy bread")

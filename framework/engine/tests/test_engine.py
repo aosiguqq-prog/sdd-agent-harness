@@ -4,7 +4,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from engine.driver import ManualDriver, StageResult, Driver
+from engine.driver import ManualDriver
 from engine.runner import run
 from engine.state import State
 
