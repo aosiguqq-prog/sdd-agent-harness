@@ -3,7 +3,7 @@
 Usage (from the repository root):
     PYTHONPATH=framework python3 -m engine new <product> [--desc "one-line request"]
     PYTHONPATH=framework python3 -m engine status <product>
-    PYTHONPATH=framework python3 -m engine run <product> [--max N] [--approve-release] [--driver manual|claude]
+    PYTHONPATH=framework python3 -m engine run <product> [--max N] [--approve-release] [--driver manual|claude|claude-cli]
     PYTHONPATH=framework python3 -m engine resume <product>
 """
 from __future__ import annotations
@@ -19,7 +19,11 @@ from .state import State
 
 
 def _make_driver(name: str):
-    """Create a driver by name: manual = offline; claude = Claude Agent SDK (needs an API key)."""
+    """Create a driver by name: manual = offline; claude = Claude Agent SDK (needs an API key);
+    claude-cli = Claude Code headless mode (`claude -p`, uses your Claude Code login)."""
+    if name == "claude-cli":
+        from .driver import ClaudeCLIDriver
+        return ClaudeCLIDriver()
     if name == "claude":
         from .driver import ClaudeAgentDriver
         return ClaudeAgentDriver()
@@ -120,8 +124,9 @@ def build_parser() -> argparse.ArgumentParser:
         pr.add_argument("name")
         pr.add_argument("--max", type=int, default=None, help="maximum number of steps in this run")
         pr.add_argument("--approve-release", action="store_true", help="approve the release preview and pass the human gate")
-        pr.add_argument("--driver", choices=["manual", "claude"], default="manual",
-                        help="manual = offline (default); claude = produce artifacts with the Claude Agent SDK (needs an API key)")
+        pr.add_argument("--driver", choices=["manual", "claude", "claude-cli"], default="manual",
+                        help="manual = offline (default); claude = Claude Agent SDK (needs an API key); "
+                             "claude-cli = Claude Code headless mode (claude -p, uses your Claude Code login)")
         pr.set_defaults(func=cmd_run)
 
     return parser

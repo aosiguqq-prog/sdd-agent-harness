@@ -7,12 +7,13 @@ Actually producing a stage's artifacts is delegated to a pluggable **driver**. S
 |--------|--------------|-------|
 | `manual` (default) | Calls no AI. A stage passes when its artifacts exist; otherwise the line pauses until a human — or Claude Code in an interactive session — produces them | nothing |
 | `claude` | Drives each role as an AI agent through the Claude Agent SDK, which writes the artifacts back to files | `pip install claude-agent-sdk`, `ANTHROPIC_API_KEY` |
+| `claude-cli` | Drives each role with Claude Code in headless mode (`claude -p`) and records per-call metrics in `<product>/runs.jsonl` | Claude Code installed and logged in (a Claude subscription works) |
 
 ## Usage (from the repository root)
 ```bash
 PYTHONPATH=framework python3 -m engine new <product> --desc "one-line request"
 PYTHONPATH=framework python3 -m engine status <product>
-PYTHONPATH=framework python3 -m engine run <product> [--max N] [--approve-release] [--driver manual|claude]
+PYTHONPATH=framework python3 -m engine run <product> [--max N] [--approve-release] [--driver manual|claude|claude-cli]
 PYTHONPATH=framework python3 -m engine resume <product>
 ```
 
@@ -36,8 +37,9 @@ Every step increments the budget (`budget.used_steps`), appends to `activity-log
 ```bash
 PYTHONPATH=framework python3 -m unittest engine.tests.test_engine
 ```
-Six offline tests cover: pausing on missing artifacts, advancing when they appear, the human gate, budget exhaustion, the activity log, and resume consistency.
+Nine offline tests cover: pausing on missing artifacts, advancing when they appear, the human gate, budget exhaustion, the activity log, resume consistency, and the `claude-cli` driver (with a fake runner, so the real CLI is never called): metrics recording, stopping at the turn limit, and the bounded command line.
 
 ## Limits (stated honestly)
 - The engine judges only whether artifacts **exist**, not their quality; quality is guarded by the qa-test and reviewer roles.
-- The `claude` driver has not yet been exercised end to end; so far the sample products were produced stage by stage in interactive Claude Code sessions, with the engine tracking state. A driver that runs Claude Code in headless mode (`claude -p`) is planned as a lower-cost alternative.
+- The `claude` (Agent SDK) driver has not been exercised end to end. The `claude-cli` driver is the intended way to run unattended; its first end-to-end run is in progress.
+- `claude-cli` deliberately does not use `--bare`, so the repository's `CLAUDE.md` and hooks load in every call.

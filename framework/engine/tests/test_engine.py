@@ -1,10 +1,11 @@
 """Offline engine tests: progression, gates, budget, pause / resume. Standard-library unittest only."""
 import json
+import subprocess
 import tempfile
 import unittest
 from pathlib import Path
 
-from engine.driver import ManualDriver
+from engine.driver import ClaudeCLIDriver, ManualDriver
 from engine.runner import run
 from engine.state import State
 
@@ -81,6 +82,57 @@ class TestEngine(unittest.TestCase):
         run(st, ManualDriver())
         reloaded = State.load(self.dir / "sdd-state.json")
         self.assertEqual(reloaded.stages["1-a"]["status"], "done")
+
+
+def fake_claude(result: dict, writes: dict = None, returncode: int = 0):
+    """A stand-in for subprocess.run: optionally writes files (as the AI would), returns a JSON result."""
+    calls = []
+
+    def runner(cmd, **kwargs):
+        calls.append(cmd)
+        for path, text in (writes or {}).items():
+            Path(path).write_text(text, encoding="utf-8")
+        return subprocess.CompletedProcess(cmd, returncode, stdout=json.dumps(result), stderr="")
+    runner.calls = calls
+    return runner
+
+
+class TestClaudeCLIDriver(unittest.TestCase):
+    """The claude -p driver, tested offline with a fake runner (the real CLI is never called)."""
+
+    def setUp(self):
+        self.d = tempfile.TemporaryDirectory()
+        self.dir = Path(self.d.name)
+
+    def tearDown(self):
+        self.d.cleanup()
+
+    def test_stage_done_when_ai_writes_output_and_metrics_recorded(self):
+        st = make_state(self.dir)
+        ok = {"is_error": False, "subtype": "success", "num_turns": 7, "duration_ms": 1200,
+              "total_cost_usd": 0.05, "session_id": "s1"}
+        runner = fake_claude(ok, writes={self.dir / "a.md": "x"})
+        reason = run(st, ClaudeCLIDriver(runner=runner), max_steps=1)
+        self.assertEqual(st.stages["1-a"]["status"], "done")
+        self.assertEqual(reason, "paused:max-steps")
+        rec = json.loads((self.dir / "runs.jsonl").read_text(encoding="utf-8").splitlines()[0])
+        self.assertEqual((rec["stage"], rec["role"], rec["num_turns"]), ("1-a", "ra", 7))
+
+    def test_pauses_when_turn_limit_reached(self):
+        st = make_state(self.dir)
+        runner = fake_claude({"is_error": True, "subtype": "error_max_turns"}, returncode=1)
+        reason = run(st, ClaudeCLIDriver(runner=runner))
+        self.assertEqual(reason, "paused:1-a")
+        log = (self.dir / "activity-log.md").read_text(encoding="utf-8")
+        self.assertIn("error_max_turns", log)
+
+    def test_command_is_bounded_and_uses_role_prompt(self):
+        cmd = ClaudeCLIDriver(max_turns=12).command("test-author", "do it")
+        self.assertEqual(cmd[:3], ["claude", "-p", "do it"])
+        self.assertIn("--max-turns", cmd)
+        self.assertEqual(cmd[cmd.index("--max-turns") + 1], "12")
+        self.assertNotIn("--bare", cmd)        # must load CLAUDE.md and hooks
+        self.assertIn("--append-system-prompt", cmd)
 
 
 if __name__ == "__main__":
