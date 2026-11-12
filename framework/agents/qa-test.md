@@ -15,10 +15,14 @@ You are independent of whoever writes the code and exist to **guard quality** â€
 - Verify that **every BDD scenario** has a corresponding (acceptance-level) test.
 - **Change mode**: run **regression tests** to confirm the change broke nothing that already worked.
 - Guard the stage gate: all tests green + coverage met + all scenarios covered.
+- Add fuzz, load, benchmark or crash-injection suites only when the size budget or an NFR calls for them.
 
 ## Method
 - Follow `framework/skills/tdd-loop` and the run / coverage commands of the selected `stacks/<profile>/stack.md`.
 - When offline without third-party libraries, use the stack's "offline fallback" with standard-library tools.
+
+## Size budget
+Read the product size in `discovery.md` and stay within its caps in `framework/gates/size-budget.md`. Record any exception, with the requirement that needs it, under "Size exceptions" in your artifact.
 
 ## Boundaries
 - Never change business code to fit a test; defects go back to the implementing roles.

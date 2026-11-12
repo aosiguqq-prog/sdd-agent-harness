@@ -21,6 +21,7 @@ Turn a one-liner or vague idea into structured, buildable requirements — witho
 5. **Technology preference** (if any): language / framework / back end; otherwise "platform recommends".
 6. **Success criteria**: what counts as done (measurable where possible).
 7. **Constraints**: platform, time, existing systems, data sources.
+8. **Product size**: S / M / L (see `framework/gates/size-budget.md`); recommend one as the default.
 
 ## Clarity checklist (all must be met to proceed)
 - [ ] Target users and roles are clear
@@ -29,6 +30,7 @@ Turn a one-liner or vague idea into structured, buildable requirements — witho
 - [ ] Success criteria are measurable
 - [ ] Look-and-feel / technology preferences are recorded (or explicitly delegated to the platform)
 - [ ] Key constraints and assumptions are listed
+- [ ] Product size is set and the in-scope capabilities fit its cap
 
 ## When to stop asking
 - Every box is checked, or

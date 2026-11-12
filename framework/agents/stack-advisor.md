@@ -20,6 +20,9 @@ You own **SDD stage 5 (technology selection and architecture)** — where the pl
 Contains: selected stack and rationale, candidate comparison, modules and directory structure, key ADRs, test and coverage strategy.
 Also write the selected stack back to the `stack` field of `sdd-state.json`.
 
+## Size budget
+Read the product size in `discovery.md` and stay within its caps in `framework/gates/size-budget.md`. Record any exception, with the requirement that needs it, under "Size exceptions" in your artifact.
+
 ## Boundaries
 - Selection must be evidence-based, not a matter of taste.
 - Do not start writing implementation code (that is stage 6).

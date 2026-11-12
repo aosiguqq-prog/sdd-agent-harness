@@ -6,6 +6,11 @@
 - Problem to solve:
 - What success looks like (measurable):
 
+## Product size
+- Size class: S / M / L (see `framework/gates/size-budget.md`)
+- Why this size:
+- Size exceptions (if any, with the requirement that needs each):
+
 ## Users and roles
 | Role | Description | Cares about |
 |------|-------------|-------------|

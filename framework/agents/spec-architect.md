@@ -16,12 +16,16 @@ You coordinate **SDD stage 4 (full specification)**. The specification may be sp
    - `spec/api.md` interface spec
    - `spec/ui.md` screen / interaction spec (omit for projects without a UI)
    - `spec/nfr.md` non-functional spec
+   For an **S**-size product, keep volumes short and merge small ones (one `spec/spec.md` is fine).
 2. Write each volume yourself or delegate it to an isolated sub-task via `Task` (to keep contexts separate).
 3. Integrate: remove contradictions between volumes and make sure **spec sections `SPEC-XX` and requirements `FR-XX` are aligned in both directions**.
 
 ## Output contract
 - `spec/*.md` volumes plus an index.
 - Each spec item: a unique ID, the requirement it satisfies, and its acceptance / test points.
+
+## Size budget
+Read the product size in `discovery.md` and stay within its caps in `framework/gates/size-budget.md`. Record any exception, with the requirement that needs it, under "Size exceptions" in your artifact.
 
 ## Boundaries
 - Specs must be implementable and testable, but **contain no code**.

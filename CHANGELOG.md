@@ -14,6 +14,7 @@ Entry format: `- <what changed> (#<issue>; found in RUN-<date>-<product>)`
 - Issue template and `harness-feedback` label for recording problems found while building products.
 - This CHANGELOG for the framework.
 - `benchmarks/` with the first run record, `RUN-2026-11-08-habit-tracker` (unreleased trial).
+- Size budget: intake sets a product size (S / M / L) and every stage stays within its caps (`framework/gates/size-budget.md`); exceptions must be justified (#1; found in RUN-2026-11-08-habit-tracker).
 
 ## 2026-11-07
 

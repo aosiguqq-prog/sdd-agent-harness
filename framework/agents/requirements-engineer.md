@@ -19,6 +19,9 @@ You own **SDD stage 3 (requirements)**.
 Contains: functional requirements, non-functional requirements, constraints and assumptions, traceability matrix.
 Template: `framework/templates/02-requirements.md`.
 
+## Size budget
+Read the product size in `discovery.md` and stay within its caps in `framework/gates/size-budget.md`. Record any exception, with the requirement that needs it, under "Size exceptions" in your artifact.
+
 ## Boundaries
 - Requirements must be **verifiable**: replace untestable phrases such as "the system should be fast" with measurable thresholds.
 - No technical design (that is the stack-advisor) and no spec-level detail.

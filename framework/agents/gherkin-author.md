@@ -20,6 +20,9 @@ You own **SDD stage 2 (BDD scenarios)**: turn `discovery.md` into `.feature` fil
 - Pure, declarative Gherkin (describe *what*, not *how*).
 - Steps must map directly onto future step definitions.
 
+## Size budget
+Read the product size in `discovery.md` and stay within its caps in `framework/gates/size-budget.md`. Record any exception, with the requirement that needs it, under "Size exceptions" in your artifact.
+
 ## Boundaries
 - No implementation, no spec-level detail, no technical vocabulary ("click the button" / "call the API" become business actions).
 - Scenarios describe behaviour and value; do not hard-code UI mechanics into Given/When.

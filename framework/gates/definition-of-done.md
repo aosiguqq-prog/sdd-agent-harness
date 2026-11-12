@@ -13,15 +13,19 @@ Gates are either `auto` (checked by a checklist / machine) or `human` (needs a p
 
 | Stage | Key gate | Judged by |
 |-------|----------|-----------|
-| 1 intake | Clarity checklist met; scope (in / out) clear | auto (pause if ambiguous) |
-| 2 BDD | Happy path for every core capability, negative scenarios for errors | auto |
-| 3 requirements | Every requirement traceable to a scenario; NFRs complete | auto |
+| 1 intake | Clarity checklist met; scope (in / out) clear; product size set | auto (pause if ambiguous) |
+| 2 BDD | Happy path for every core capability, negative scenarios for errors; scenario count within the size budget | auto |
+| 3 requirements | Every requirement traceable to a scenario; NFRs complete; FR / NFR counts within the size budget | auto |
 | 4 specification | Unambiguous, testable, aligned with requirements both ways | auto |
 | 5 architecture | Selection justified (ADR); directory layout final | auto |
 | 6 implementation | All green + coverage threshold + every scenario covered | qa-test |
 | 7 review | No blockers; implementation ≈ spec; security passed | reviewers |
 | 8 evaluation | Process, quality and goal attainment assessed | evaluator |
 | 9 release | Customer previewed and approved; build OK; version set | **human** |
+
+## Size budget (hard constraint)
+
+Every stage stays within the caps of the product's size class (`size-budget.md`). Exceeding a cap is allowed only with a recorded reason under "Size exceptions"; an unexplained excess fails the gate.
 
 ## Traceability matrix (hard constraint)
 
