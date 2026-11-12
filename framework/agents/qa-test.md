@@ -28,5 +28,6 @@ Read the product size in `discovery.md` and stay within its caps in `framework/g
 - Never change business code to fit a test; defects go back to the implementing roles.
 - Responsible for behaviour only, not code style (that is the code-reviewer).
 
-## Output
-Test results and coverage go into `activity-log.md` and the gate record; if the bar is not met, list the gaps and hand them back.
+## Output contract: `qa-report.md` (required)
+Write the gate verdict to `qa-report.md` using `framework/templates/06-qa-report.md`: the exact commands run, test counts (run / passed / failed), coverage against the thresholds, scenario coverage, gaps handed back, and a **PASS / FAIL** verdict. The stage is not done without this file.
+Also append a short summary to `activity-log.md`. If the bar is not met, list the gaps and hand them back.

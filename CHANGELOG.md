@@ -16,6 +16,7 @@ Entry format: `- <what changed> (#<issue>; found in RUN-<date>-<product>)`
 - `benchmarks/` with the first run record, `RUN-2026-11-08-habit-tracker` (unreleased trial).
 - Size budget: intake sets a product size (S / M / L) and every stage stays within its caps (`framework/gates/size-budget.md`); exceptions must be justified (#1; found in RUN-2026-11-08-habit-tracker).
 - Real timestamps in activity logs: the prompt hook and the headless task give roles the current time, and CLAUDE.md forbids guessing it (#2; found in RUN-2026-11-08-habit-tracker).
+- qa-test must write `qa-report.md` (commands, counts, coverage, PASS / FAIL verdict) as a required output of 6-implement; the `claude-cli` driver keeps the tail of stderr in `runs.jsonl` when a call fails (#3; found in RUN-2026-11-08-habit-tracker).
 
 ## 2026-11-07
 

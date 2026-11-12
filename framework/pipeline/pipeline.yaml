@@ -84,8 +84,8 @@ stages:
     verify_by: qa-test         # independent QA guards the green bar (including regression in change mode)
     skills: [tdd-loop]
     inputs: [spec/, architecture.md, "features/*.feature"]
-    outputs: [src/, tests/]
-    gate: { type: auto, checklist: [all tests green, coverage threshold met, every scenario covered] }
+    outputs: [src/, tests/, qa-report.md]   # qa-report.md = qa-test's written gate verdict
+    gate: { type: auto, checklist: [all tests green, coverage threshold met, every scenario covered, qa-report.md verdict PASS] }
 
   - id: 7-review
     name: Review (code + security)

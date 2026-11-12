@@ -13,6 +13,7 @@ Standard templates for each stage's artifacts. Roles fill them in, so artifacts 
 | `03-spec-ui.md` | 4 | UI / interaction spec |
 | `03-spec-nfr.md` | 4 | Non-functional spec |
 | `04-architecture.md` | 5 | Architecture and stack selection |
+| `06-qa-report.md` | 6 | qa-test's gate verdict (required output of 6-implement) |
 | `06-review-report.md` | 7 | Review report |
 | `evaluation-report.md` | 8 | Process and product evaluation report |
 | `07-release-notes.md` | 9 | Release notes |

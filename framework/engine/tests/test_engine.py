@@ -84,7 +84,7 @@ class TestEngine(unittest.TestCase):
         self.assertEqual(reloaded.stages["1-a"]["status"], "done")
 
 
-def fake_claude(result: dict, writes: dict = None, returncode: int = 0):
+def fake_claude(result: dict, writes: dict = None, returncode: int = 0, stderr: str = ""):
     """A stand-in for subprocess.run: optionally writes files (as the AI would), returns a JSON result."""
     calls = []
 
@@ -92,7 +92,7 @@ def fake_claude(result: dict, writes: dict = None, returncode: int = 0):
         calls.append(cmd)
         for path, text in (writes or {}).items():
             Path(path).write_text(text, encoding="utf-8")
-        return subprocess.CompletedProcess(cmd, returncode, stdout=json.dumps(result), stderr="")
+        return subprocess.CompletedProcess(cmd, returncode, stdout=json.dumps(result), stderr=stderr)
     runner.calls = calls
     return runner
 
@@ -125,6 +125,15 @@ class TestClaudeCLIDriver(unittest.TestCase):
         self.assertEqual(reason, "paused:1-a")
         log = (self.dir / "activity-log.md").read_text(encoding="utf-8")
         self.assertIn("error_max_turns", log)
+
+    def test_error_keeps_stderr_tail_for_diagnosis(self):
+        st = make_state(self.dir)
+        runner = fake_claude({"is_error": False, "subtype": "success"}, returncode=1, stderr="hook failed: boom")
+        reason = run(st, ClaudeCLIDriver(runner=runner))
+        self.assertEqual(reason, "paused:1-a")
+        rec = json.loads((self.dir / "runs.jsonl").read_text(encoding="utf-8").splitlines()[0])
+        self.assertTrue(rec["is_error"])
+        self.assertIn("boom", rec["stderr_tail"])
 
     def test_command_is_bounded_and_uses_role_prompt(self):
         cmd = ClaudeCLIDriver(max_turns=12).command("test-author", "do it")

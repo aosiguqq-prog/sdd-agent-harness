@@ -18,7 +18,7 @@ Gates are either `auto` (checked by a checklist / machine) or `human` (needs a p
 | 3 requirements | Every requirement traceable to a scenario; NFRs complete; FR / NFR counts within the size budget | auto |
 | 4 specification | Unambiguous, testable, aligned with requirements both ways | auto |
 | 5 architecture | Selection justified (ADR); directory layout final | auto |
-| 6 implementation | All green + coverage threshold + every scenario covered | qa-test |
+| 6 implementation | All green + coverage threshold + every scenario covered; `qa-report.md` written with verdict PASS | qa-test |
 | 7 review | No blockers; implementation ≈ spec; security passed | reviewers |
 | 8 evaluation | Process, quality and goal attainment assessed | evaluator |
 | 9 release | Customer previewed and approved; build OK; version set | **human** |

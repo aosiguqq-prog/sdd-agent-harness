@@ -229,6 +229,9 @@ class ClaudeCLIDriver(Driver):
                 total_cost_usd=result.get("total_cost_usd"),
                 session_id=result.get("session_id"),
             )
+            if record["is_error"]:
+                # keep the tail of stderr so an abnormal exit can be diagnosed later
+                record["stderr_tail"] = (proc.stderr or "").strip()[-500:] or None
             _append_run(product_dir, record)
             if record["is_error"]:
                 detail = record["subtype"] or (proc.stderr or "").strip()[:200] or f"exit code {proc.returncode}"
