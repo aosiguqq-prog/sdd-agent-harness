@@ -134,6 +134,11 @@ class TestClaudeCLIDriver(unittest.TestCase):
         self.assertNotIn("--bare", cmd)        # must load CLAUDE.md and hooks
         self.assertIn("--append-system-prompt", cmd)
 
+    def test_task_tells_the_role_the_real_time(self):
+        task = ClaudeCLIDriver.task("intake", "1-intake", "products/p", ["discovery.md"])
+        self.assertIn("date '+%Y-%m-%d %H:%M'", task)
+        self.assertIn("Never guess a time", task)
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -13,6 +13,7 @@ All roles **collaborate through files, never through chat memory**. The shared m
 Rules:
 1. **Read before acting**: read `sdd-state.json` and the artifacts you need — **only what this step needs**, never the whole context.
 2. **Write back after acting**: update your artifacts + `sdd-state.json` + append one entry to `activity-log.md`.
+   Timestamp every entry with the **real** local time: the time the hook or the task gives you, or the output of `date '+%Y-%m-%d %H:%M'`. Never guess a time; if you cannot get it, write `time unknown`.
 3. Roles **never talk to each other directly**; every hand-over goes through files, scheduled by the orchestrator.
 
 ## 2. Where rules live (look here to find or add a rule)

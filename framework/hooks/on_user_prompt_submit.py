@@ -10,6 +10,7 @@ Design:
 - Only prints text to stdout (Claude Code merges it into this turn's context).
 - Fail open: any exception exits silently with 0 and never blocks the user.
 """
+import datetime
 import glob
 import json
 import os
@@ -41,6 +42,10 @@ def main() -> None:
     lines.append(
         "2) Stage check: confirm the current SDD stage, its role and command, and advance according to "
         "framework/pipeline/pipeline.yaml; never enter the next stage before its gate passes."
+    )
+    lines.append(
+        "Current local time: " + datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
+        + " — use this (or the output of `date`) for every activity-log timestamp; never guess a time."
     )
     print("\n".join(lines))
     sys.exit(0)

@@ -143,7 +143,7 @@ class ClaudeAgentDriver(Driver):
 # Tools a role may use without asking. File tools plus a few safe shell commands for running tests.
 CLI_ALLOWED_TOOLS = (
     "Read,Write,Edit,Glob,Grep,"
-    "Bash(python3 *),Bash(python *),Bash(ls *),Bash(mkdir *),Bash(cat *)"
+    "Bash(python3 *),Bash(python *),Bash(ls *),Bash(mkdir *),Bash(cat *),Bash(date *)"
 )
 
 
@@ -192,7 +192,9 @@ class ClaudeCLIDriver(Driver):
             f"Do not edit stage statuses or the budget in sdd-state.json: the engine updates them. "
             f"No human is available during this run: where something is unclear, make the most reasonable "
             f"assumption and list it under an 'Assumptions' heading in your artifact instead of asking. "
-            f"When done, append one entry to {rel}/activity-log.md describing what you did and why."
+            f"When done, append one entry to {rel}/activity-log.md describing what you did and why, "
+            f"timestamped with the current local time: run `date '+%Y-%m-%d %H:%M'` "
+            f"(when this task started it was {_dt.datetime.now().strftime('%Y-%m-%d %H:%M')}). Never guess a time."
         )
 
     def run_stage(self, product_dir: Path, stage_id: str, stage: dict) -> StageResult:
