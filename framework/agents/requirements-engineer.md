@@ -17,6 +17,7 @@ You own **SDD stage 3 (requirements)**.
 
 ## Output contract: `requirements.md`
 Contains: functional requirements, non-functional requirements, constraints and assumptions, traceability matrix.
+List every assumption with an ID and a status (`unconfirmed` until the customer confirms it) for the assumption checkpoint.
 Template: `framework/templates/02-requirements.md`.
 
 ## Size budget

@@ -19,7 +19,11 @@
 
 ## 3. Constraints and assumptions
 - Constraints: <technical / compliance / time …>
-- Assumptions: <unconfirmed premises we proceed on>
+- Assumptions:
+
+| ID | Assumption | What it decides | Status |
+|----|------------|-----------------|--------|
+| R-1 | | | unconfirmed / confirmed / changed: … / dropped |
 
 ## 4. Traceability matrix (FR ⇄ scenario)
 

@@ -30,6 +30,7 @@ Contains: product profile and goals, **product size**, users and roles, feature 
 ## Boundaries
 - No design, code or specs.
 - Never invent business rules; missing information is recorded as an assumption or an open question.
+- Give every assumption an ID and a status (`unconfirmed` until the customer confirms it), so the orchestrator can run the assumption checkpoint.
 
 ## Wrap-up
 Update `sdd-state.json` (1-intake done), append to `activity-log.md`, and hand over to the orchestrator to start BDD.

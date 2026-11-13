@@ -28,6 +28,7 @@ Rules:
 ## 3. Autonomy policy
 - **Avoid interrupting**: advance automatically and record everything in `activity-log.md`.
 - **The only mandatory human gate is the release preview**: stop before release, let the customer preview the result and decide.
+- **Assumption checkpoints (conversation mode only)**: when a human is in the session, stop after `1-intake` and after `3-requirements`, show the assumptions made so far, and continue only after the customer confirms or corrects them. In headless runs there is nobody to ask: record the assumptions and keep going.
 - **Stop and ask a human** when: requirements are too ambiguous / tests keep failing / review has a blocker / the budget is exceeded.
 
 ## 4. Separation of powers

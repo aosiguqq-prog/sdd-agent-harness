@@ -32,4 +32,9 @@
 |------|---------|
 
 ## Key risks, open questions and assumptions
-- [ ]
+| ID | Assumption | What it decides | Status |
+|----|------------|-----------------|--------|
+| A-1 | | | unconfirmed / confirmed / changed: … / dropped |
+
+- Open questions:
+- Risks:

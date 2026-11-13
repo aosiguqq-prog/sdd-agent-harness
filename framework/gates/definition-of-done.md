@@ -13,9 +13,9 @@ Gates are either `auto` (checked by a checklist / machine) or `human` (needs a p
 
 | Stage | Key gate | Judged by |
 |-------|----------|-----------|
-| 1 intake | Clarity checklist met; scope (in / out) clear; product size set | auto (pause if ambiguous) |
+| 1 intake | Clarity checklist met; scope (in / out) clear; product size set; conversation mode: assumptions confirmed by the customer | auto (pause if ambiguous) + **customer** in conversation mode |
 | 2 BDD | Happy path for every core capability, negative scenarios for errors; scenario count within the size budget | auto |
-| 3 requirements | Every requirement traceable to a scenario; NFRs complete; FR / NFR counts within the size budget | auto |
+| 3 requirements | Every requirement traceable to a scenario; NFRs complete; FR / NFR counts within the size budget; conversation mode: assumptions confirmed by the customer | auto + **customer** in conversation mode |
 | 4 specification | Unambiguous, testable, aligned with requirements both ways | auto |
 | 5 architecture | Selection justified (ADR); directory layout final | auto |
 | 6 implementation | All green + coverage threshold + every scenario covered; `qa-report.md` written with verdict PASS | qa-test |

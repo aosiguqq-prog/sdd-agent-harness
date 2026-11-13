@@ -44,6 +44,7 @@ stages:
     gate:
       type: auto        # judged by the clarity checklist; pauses for a human if too ambiguous
       checklist: [clarity checklist met or customer said go, scope in/out clear, success criteria measurable]
+    checkpoint: assumptions   # conversation mode: customer confirms the assumptions before 2-bdd
 
   - id: 2-bdd
     name: BDD scenarios (Gherkin)
@@ -59,6 +60,7 @@ stages:
     inputs: ["features/*.feature", discovery.md]
     outputs: [requirements.md]
     gate: { type: auto, checklist: [every requirement traceable to a scenario, NFRs complete, no contradictions] }
+    checkpoint: assumptions   # conversation mode: customer confirms the assumptions before 4-spec
 
   - id: 4-spec
     name: Full specification (split into volumes)

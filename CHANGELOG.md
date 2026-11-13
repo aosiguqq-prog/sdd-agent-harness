@@ -18,6 +18,7 @@ Entry format: `- <what changed> (#<issue>; found in RUN-<date>-<product>)`
 - Real timestamps in activity logs: the prompt hook and the headless task give roles the current time, and CLAUDE.md forbids guessing it (#2; found in RUN-2026-11-08-habit-tracker).
 - qa-test must write `qa-report.md` (commands, counts, coverage, PASS / FAIL verdict) as a required output of 6-implement; the `claude-cli` driver keeps the tail of stderr in `runs.jsonl` when a call fails (#3; found in RUN-2026-11-08-habit-tracker).
 - Feedback loop: the evaluator writes `retrospective.md` (framework findings with evidence, proposals only) as a required output of 8-evaluation; CLAUDE.md and `benchmarks/README.md` describe the triage → issue → fix → CHANGELOG steps (#4; found in RUN-2026-11-08-habit-tracker).
+- Assumption checkpoints in conversation mode: after 1-intake and 3-requirements the orchestrator shows the unconfirmed assumptions and continues only after the customer confirms or corrects them; assumptions now carry an ID and a status (#5; found in RUN-2026-11-08-habit-tracker).
 
 ## 2026-11-07
 
