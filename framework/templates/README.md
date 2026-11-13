@@ -16,6 +16,7 @@ Standard templates for each stage's artifacts. Roles fill them in, so artifacts 
 | `06-qa-report.md` | 6 | qa-test's gate verdict (required output of 6-implement) |
 | `06-review-report.md` | 7 | Review report |
 | `evaluation-report.md` | 8 | Process and product evaluation report |
+| `08-retrospective.md` | 8 | Framework findings from this run, for human triage into issues |
 | `07-release-notes.md` | 9 | Release notes |
 | `activity-log.md` | all | Live activity log written by the orchestrator |
 

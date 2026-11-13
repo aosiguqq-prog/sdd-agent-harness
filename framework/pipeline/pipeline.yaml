@@ -99,8 +99,8 @@ stages:
     name: Independent evaluation and report
     agent: evaluator
     inputs: [sdd-state.json, activity-log.md, spec/, review-report.md]
-    outputs: [evaluation-report.md]
-    gate: { type: auto, checklist: [process monitoring summarised, quality assessed, goal attainment judged] }
+    outputs: [evaluation-report.md, retrospective.md]   # retrospective.md = framework findings for triage
+    gate: { type: auto, checklist: [process monitoring summarised, quality assessed, goal attainment judged, framework findings proposed] }
 
   - id: 9-release
     name: Release / deploy

@@ -20,7 +20,7 @@ Gates are either `auto` (checked by a checklist / machine) or `human` (needs a p
 | 5 architecture | Selection justified (ADR); directory layout final | auto |
 | 6 implementation | All green + coverage threshold + every scenario covered; `qa-report.md` written with verdict PASS | qa-test |
 | 7 review | No blockers; implementation ≈ spec; security passed | reviewers |
-| 8 evaluation | Process, quality and goal attainment assessed | evaluator |
+| 8 evaluation | Process, quality and goal attainment assessed; `retrospective.md` lists framework findings with evidence | evaluator |
 | 9 release | Customer previewed and approved; build OK; version set | **human** |
 
 ## Size budget (hard constraint)

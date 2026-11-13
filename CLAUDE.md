@@ -53,3 +53,8 @@ intake · orchestrator · gherkin-author / requirements-engineer / spec-architec
 - When the customer asks to add a feature / change the spec / change the look / fix a bug in an **existing product**: use **change mode** (`framework/skills/change-management`) — impact analysis, scoped re-run, regression, new version.
 - The only exception: the customer **explicitly says "just write it, skip the process"**.
 - Shortcut: `/build <one-line request>` starts a greenfield run in one go.
+
+## 10. Feedback loop (improving the framework itself)
+Every run ends with the evaluator's `retrospective.md`: framework problems found in the run, each with evidence and a proposed change.
+Then: a **human** triages each finding (accept / reject with a reason) → accepted ones become `harness-feedback` issues → each fix is committed with `fixes #<n>` and recorded in the root `CHANGELOG.md` → the run's evidence is kept under `benchmarks/runs/` → the next run checks the effect.
+The evaluator only proposes; it never edits the framework.
