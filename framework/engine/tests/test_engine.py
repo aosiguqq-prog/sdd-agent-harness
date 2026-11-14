@@ -162,6 +162,16 @@ class TestClaudeCLIDriver(unittest.TestCase):
         self.assertEqual(saved["stages"]["1-a"]["status"], "done")   # the engine's fields still win
         self.assertEqual(saved["budget"]["used_steps"], 1)
 
+    def test_pip_install_into_system_python_is_blocked(self):
+        # #8: only the product's own .venv may install packages
+        cmd = ClaudeCLIDriver().command("implementer", "do it", "products/p")
+        denied = cmd[cmd.index("--disallowedTools") + 1]
+        for rule in ("Bash(pip *)", "Bash(pip3 *)", "Bash(python -m pip *)", "Bash(python3 -m pip *)"):
+            self.assertIn(rule, denied)
+        allowed = cmd[cmd.index("--allowedTools") + 1]
+        self.assertIn("Bash(products/p/.venv/bin/pip *)", allowed)
+        self.assertIn(".venv", ClaudeCLIDriver.task("implementer", "6-implement", "products/p", ["src/"]))
+
     def test_task_tells_the_role_the_real_time(self):
         task = ClaudeCLIDriver.task("intake", "1-intake", "products/p", ["discovery.md"])
         self.assertIn("date '+%Y-%m-%d %H:%M'", task)

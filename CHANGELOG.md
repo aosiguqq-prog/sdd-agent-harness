@@ -22,6 +22,7 @@ Entry format: `- <what changed> (#<issue>; found in RUN-<date>-<product>)`
 
 ### Changed
 - The product template's 6-implement now names the TDD relay `test-author+implementer+refactorer+qa-test` and describes the per-unit loop, matching `pipeline.yaml`; the engine runs one pass of each role for now (per-unit loop tracked in #9) (#6; found in RUN-2026-11-08-habit-tracker).
+- `claude-cli` driver: installing packages into the system Python is blocked (`--disallowedTools` for `pip`, `python -m pip`, `ensurepip`, `sudo`); roles may install only into the product's own `<product>/.venv` (#8; found in RUN-2026-11-08-habit-tracker).
 
 ### Fixed
 - The engine no longer erases fields that roles write to `sdd-state.json` (such as `stack`): `save()` re-reads the file and writes back only the fields the engine owns (stage status and gate, `current_stage`, `budget`, `activity`) (#7; found in RUN-2026-11-08-habit-tracker).

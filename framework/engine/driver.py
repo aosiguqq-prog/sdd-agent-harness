@@ -145,6 +145,17 @@ CLI_ALLOWED_TOOLS = (
     "Read,Write,Edit,Glob,Grep,"
     "Bash(python3 *),Bash(python *),Bash(ls *),Bash(mkdir *),Bash(cat *),Bash(date *)"
 )
+# Never install into the machine-wide Python. Deny rules win over the allow-list above
+# (which would otherwise let `python3 -m pip install` through).
+CLI_DISALLOWED_TOOLS = (
+    "Bash(pip *),Bash(pip3 *),Bash(python -m pip *),Bash(python3 -m pip *),"
+    "Bash(python -m ensurepip *),Bash(python3 -m ensurepip *),Bash(sudo *)"
+)
+
+
+def _venv_tools(rel: str) -> str:
+    """Installing is allowed only into the product's own virtual environment, <product>/.venv."""
+    return f"Bash({rel}/.venv/bin/pip *),Bash({rel}/.venv/bin/python *)"
 
 
 class ClaudeCLIDriver(Driver):
@@ -170,14 +181,15 @@ class ClaudeCLIDriver(Driver):
         self.claude_bin = claude_bin
         self._run = runner or subprocess.run   # injectable, so tests never call the real CLI
 
-    def command(self, agent_name: str, task: str) -> list:
+    def command(self, agent_name: str, task: str, rel: str = None) -> list:
         cmd = [
             self.claude_bin, "-p", task,
             "--output-format", "json",
             "--append-system-prompt", _agent_prompt(agent_name),
             "--max-turns", str(self.max_turns),
             "--permission-mode", "acceptEdits",
-            "--allowedTools", CLI_ALLOWED_TOOLS,
+            "--allowedTools", CLI_ALLOWED_TOOLS + ("," + _venv_tools(rel) if rel else ""),
+            "--disallowedTools", CLI_DISALLOWED_TOOLS,
         ]
         if self.model:
             cmd += ["--model", self.model]
@@ -192,6 +204,9 @@ class ClaudeCLIDriver(Driver):
             f"Do not edit stage statuses or the budget in sdd-state.json: the engine updates them. "
             f"No human is available during this run: where something is unclear, make the most reasonable "
             f"assumption and list it under an 'Assumptions' heading in your artifact instead of asking. "
+            f"If you need a package (e.g. a test tool), install it only into the product's own virtual "
+            f"environment: `python3 -m venv {rel}/.venv`, then `{rel}/.venv/bin/pip install <package>`; "
+            f"installing into the system Python is blocked. Prefer the standard library when it is enough. "
             f"When done, append one entry to {rel}/activity-log.md describing what you did and why, "
             f"timestamped with the current local time: run `date '+%Y-%m-%d %H:%M'` "
             f"(when this task started it was {_dt.datetime.now().strftime('%Y-%m-%d %H:%M')}). Never guess a time."
@@ -212,7 +227,7 @@ class ClaudeCLIDriver(Driver):
             record = {"time": _dt.datetime.now().isoformat(timespec="seconds"),
                       "stage": stage_id, "role": agent_name, "driver": self.name}
             try:
-                proc = self._run(self.command(agent_name, self.task(agent_name, stage_id, rel, outputs)),
+                proc = self._run(self.command(agent_name, self.task(agent_name, stage_id, rel, outputs), rel),
                                  cwd=str(ROOT), capture_output=True, text=True, timeout=self.timeout_s)
             except subprocess.TimeoutExpired:
                 record.update(is_error=True, subtype="timeout")
