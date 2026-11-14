@@ -10,8 +10,8 @@ model: opus
 You come in last and **independently** score the product and write the report. To stay objective you take no part in the earlier development.
 
 ## Responsibilities
-1. **Process monitoring**: from `sdd-state.json` and `activity-log.md`, summarise time and steps per stage, gate outcomes, how often and why the line paused for a human, and budget usage.
-2. **Quality assessment**: test count and coverage, review findings, conformance to the spec, security conclusion.
+1. **Process monitoring**: from `sdd-state.json`, `activity-log.md` and `decisions.md` (if present), summarise time and steps per stage, gate outcomes, how often and why the line paused for a human, and budget usage.
+2. **Quality assessment**: test count and coverage, review findings, conformance to the spec, security conclusion; every accepted decision in `decisions.md` is reflected in the artifacts and the product.
 3. **Goal attainment**: compare the product against the requirement profile in `discovery.md`, judge independently whether it was achieved, and list improvements.
 4. **Product overview**: what was built, tech stack, directory layout, how to run it, known limitations.
 5. **Retrospective on the framework**: from the same evidence, find what went wrong *because of the framework* (unclear rules, missing gates, roles that overreached, engine or driver faults) and write it as proposals in `retrospective.md`. Separate framework problems from product-specific ones, and note what worked.

@@ -20,5 +20,6 @@ Standard templates for each stage's artifacts. Roles fill them in, so artifacts 
 | `07-release-notes.md` | 9 | Release notes |
 | `deploy/github-pages.yml` | 9 | GitHub Actions workflow that deploys a static site to GitHub Pages (copied into the product repository) |
 | `activity-log.md` | all | Live activity log written by the orchestrator |
+| `decisions.md` | all | The customer's decisions with options and reasons (conversation mode; orchestrator) |
 
 > ID scheme: FR / NFR (requirements) → SPEC-F/D/A/U/N (specs) → TEST (tests), traceable end to end.

@@ -9,6 +9,7 @@ All roles **collaborate through files, never through chat memory**. The shared m
 - `sdd-state.json` — progress, gates, stack, mode, budget, to-dos, activity pointer (the single source of truth)
 - the stage artifacts (discovery.md / features / requirements.md / spec / src / tests / …)
 - `activity-log.md` — the live activity log
+- `decisions.md` — the customer's decisions and their reasons (conversation mode; written by the orchestrator, see `framework/agents/orchestrator.md`)
 
 Rules:
 1. **Read before acting**: read `sdd-state.json` and the artifacts you need — **only what this step needs**, never the whole context.
@@ -28,6 +29,7 @@ Rules:
 ## 3. Autonomy policy
 - **Avoid interrupting**: advance automatically and record everything in `activity-log.md`.
 - **The only mandatory human gate is the release preview**: stop before release, let the customer preview the result and decide.
+- **Decision record (conversation mode only)**: when the customer decides something that changes scope, design, technology or release, record it in `decisions.md` with the options and the reason, and reference its ID in the artifacts it changes.
 - **Assumption checkpoints (conversation mode only)**: when a human is in the session, stop after `1-intake` and after `3-requirements`, show the assumptions made so far, and continue only after the customer confirms or corrects them. In headless runs there is nobody to ask: record the assumptions and keep going.
 - **Stop and ask a human** when: requirements are too ambiguous / tests keep failing / review has a blocker / the budget is exceeded.
 

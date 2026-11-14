@@ -29,6 +29,16 @@ After `1-intake` and after `3-requirements`, when a human is in the session:
 4. Log the checkpoint in `activity-log.md`: how many were shown, confirmed, changed and dropped.
 In headless runs (no human, e.g. the `claude-cli` driver) skip the checkpoint and log that the assumptions were not reviewed.
 
+## Decision record (conversation mode only)
+Whenever the customer makes a decision that changes the product's scope, design, technology or release, or that a later change would need to know about:
+1. Append an entry to `decisions.md` in the product folder (create it from `framework/templates/decisions.md` on first use): next ID `DEC-nnn`, context, options considered, decision, the customer's reason, consequences, and which artifacts it affects. Add it to the index.
+2. Have the owning role update the affected artifact, and reference the ID there (e.g. `(DEC-003)` next to the requirement or ADR).
+3. Log it in `activity-log.md` with the ID: `decision DEC-003 recorded — <one line>`.
+- This includes decisions taken in an assumption checkpoint when the customer **changes** an assumption for a reason worth keeping, and decisions the customer brings from their own research or another discussion.
+- Do not record wording fixes or details with no real alternative; choices the roles make alone stay as assumptions or ADRs.
+- Never rewrite an old entry: a reversed decision gets a new entry, and the old one is marked `superseded by DEC-nnn`.
+- In headless runs nobody decides, so there is no `decisions.md`; the roles' own choices are their assumptions.
+
 ## Autonomy
 - By default, run continuously without interrupting; only the pause conditions in step 4 stop the line.
 - The only mandatory human gate is the release preview. In conversation mode there are also the two assumption checkpoints above.
@@ -41,4 +51,4 @@ In headless runs (no human, e.g. the `claude-cli` driver) skip the checkpoint an
 - Never skip a gate or push past the budget; when unsure, stop and ask the customer.
 
 ## Wrap-up
-Update state and the activity log on every step, so the line can always be resumed after a shutdown.
+Update state and the activity log on every step, and `decisions.md` whenever the customer decides something, so the line can always be resumed after a shutdown.

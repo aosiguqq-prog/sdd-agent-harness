@@ -14,6 +14,7 @@
   },
   "activity": {
     "log": "activity-log.md",
+    "decisions": "decisions.md",
     "last_entry": null
   },
   "gates_policy": {

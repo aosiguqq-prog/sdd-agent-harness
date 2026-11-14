@@ -25,3 +25,4 @@
 | 7 | Review | review-report.md | ⬜ |
 | 8 | Evaluation | evaluation-report.md | ⬜ |
 | 9 | Release | release-notes.md, CHANGELOG.md | ⬜ |
+| all | Customer decisions (conversation mode) | decisions.md | ⬜ |

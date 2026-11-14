@@ -8,6 +8,7 @@ Gates are either `auto` (checked by a checklist / machine) or `human` (needs a p
 - The artifact is written to its agreed location in the product directory
 - `sdd-state.json` is updated (stage status, gate result)
 - The artifact is unambiguous and can be consumed directly by the next role
+- Conversation mode: every customer decision taken in this stage is recorded in `decisions.md` and referenced by ID in the artifact it changed
 
 ## Gate highlights per stage
 

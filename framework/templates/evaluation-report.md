@@ -18,7 +18,7 @@
 - Mode: greenfield / change (round n)
 
 ## 3. Key decisions replayed
-Important decisions and their reasons, taken from the activity log:
+Important decisions and their reasons, taken from `decisions.md` (customer decisions, by ID) and the activity log:
 - ...
 
 ## 4. Quality assessment
