@@ -20,6 +20,9 @@ Entry format: `- <what changed> (#<issue>; found in RUN-<date>-<product>)`
 - Feedback loop: the evaluator writes `retrospective.md` (framework findings with evidence, proposals only) as a required output of 8-evaluation; CLAUDE.md and `benchmarks/README.md` describe the triage → issue → fix → CHANGELOG steps (#4; found in RUN-2026-11-08-habit-tracker).
 - Assumption checkpoints in conversation mode: after 1-intake and 3-requirements the orchestrator shows the unconfirmed assumptions and continues only after the customer confirms or corrects them; assumptions now carry an ID and a status (#5; found in RUN-2026-11-08-habit-tracker).
 
+### Changed
+- The product template's 6-implement now names the TDD relay `test-author+implementer+refactorer+qa-test` and describes the per-unit loop, matching `pipeline.yaml`; the engine runs one pass of each role for now (per-unit loop tracked in #9) (#6; found in RUN-2026-11-08-habit-tracker).
+
 ## 2026-11-07
 
 ### Added

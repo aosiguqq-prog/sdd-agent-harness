@@ -98,7 +98,7 @@ class ClaudeAgentDriver(Driver):
         except Exception as exc:  # should never happen
             return StageResult("blocked", f"cannot import asyncio: {exc}")
 
-        # a stage may be a relay of several roles (e.g. implementer+qa-test); drive them in order
+        # a stage may be a relay of several roles (e.g. test-author+implementer+refactorer+qa-test); drive them in order
         agents = str(stage.get("agent", "")).split("+")
         outputs = stage.get("outputs", [])
         task = (

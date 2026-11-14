@@ -25,7 +25,8 @@
     "3-requirements": { "status": "pending", "gate": "auto",  "gate_passed": false, "agent": "requirements-engineer","outputs": ["requirements.md"] },
     "4-spec":         { "status": "pending", "gate": "auto",  "gate_passed": false, "agent": "spec-architect",       "outputs": ["spec/*.md"] },
     "5-architecture": { "status": "pending", "gate": "auto",  "gate_passed": false, "agent": "stack-advisor",        "outputs": ["architecture.md"] },
-    "6-implement":    { "status": "pending", "gate": "auto",  "gate_passed": false, "agent": "implementer+qa-test",  "outputs": ["src/", "tests/", "qa-report.md"] },
+    "6-implement":    { "status": "pending", "gate": "auto",  "gate_passed": false, "agent": "test-author+implementer+refactorer+qa-test", "outputs": ["src/", "tests/", "qa-report.md"],
+                        "loop": "Per unit of work: test-author writes a failing test (RED) -> implementer makes it pass (GREEN) -> refactorer cleans up; then qa-test verifies independently and writes qa-report.md. Same as pipeline.yaml and the tdd-loop skill. Conversation mode repeats the loop per unit; the engine currently runs one pass of each role (per-unit loop: #9)." },
     "7-review":       { "status": "pending", "gate": "auto",  "gate_passed": false, "agent": "code-reviewer+security-reviewer", "outputs": ["review-report.md"] },
     "8-evaluation":   { "status": "pending", "gate": "auto",  "gate_passed": false, "agent": "evaluator",            "outputs": ["evaluation-report.md", "retrospective.md"] },
     "9-release":      { "status": "pending", "gate": "human", "gate_passed": false, "agent": "release-manager",      "outputs": ["release-notes.md", "CHANGELOG.md"], "human_gate": "release-preview" }
