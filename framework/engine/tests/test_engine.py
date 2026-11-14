@@ -143,6 +143,25 @@ class TestClaudeCLIDriver(unittest.TestCase):
         self.assertNotIn("--bare", cmd)        # must load CLAUDE.md and hooks
         self.assertIn("--append-system-prompt", cmd)
 
+    def test_engine_save_keeps_fields_written_by_a_role(self):
+        # #7: a role writes `stack` into sdd-state.json while the engine holds an older copy
+        st = make_state(self.dir)
+        path = self.dir / "sdd-state.json"
+
+        def role_sets_stack(cmd, **kwargs):
+            data = json.loads(path.read_text(encoding="utf-8"))
+            data["stack"] = "python"
+            data["stages"]["1-a"]["note"] = "by role"
+            path.write_text(json.dumps(data), encoding="utf-8")
+            (self.dir / "a.md").write_text("x", encoding="utf-8")
+            return subprocess.CompletedProcess(cmd, 0, stdout=json.dumps({"subtype": "success"}), stderr="")
+        run(st, ClaudeCLIDriver(runner=role_sets_stack), max_steps=1)
+        saved = json.loads(path.read_text(encoding="utf-8"))
+        self.assertEqual(saved["stack"], "python")                 # the role's field survived
+        self.assertEqual(saved["stages"]["1-a"]["note"], "by role")
+        self.assertEqual(saved["stages"]["1-a"]["status"], "done")   # the engine's fields still win
+        self.assertEqual(saved["budget"]["used_steps"], 1)
+
     def test_task_tells_the_role_the_real_time(self):
         task = ClaudeCLIDriver.task("intake", "1-intake", "products/p", ["discovery.md"])
         self.assertIn("date '+%Y-%m-%d %H:%M'", task)

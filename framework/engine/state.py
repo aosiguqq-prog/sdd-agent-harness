@@ -5,6 +5,8 @@ Design (see CLAUDE.md):
 - Progression relies only on the ordered `stages` in sdd-state.json (pipeline.yaml is not parsed),
   which keeps the engine dependency-free and portable.
 - Writes are atomic, so a crash mid-write cannot corrupt the state.
+- The file is shared with the AI roles (e.g. stack-advisor sets `stack`). save() therefore re-reads the
+  file and writes back only the fields the engine owns, so it never erases what a role wrote meanwhile.
 """
 from __future__ import annotations
 
@@ -20,6 +22,11 @@ def _now() -> str:
     return _dt.datetime.now().strftime("%Y-%m-%d %H:%M")
 
 
+# Fields the engine owns. Everything else in sdd-state.json belongs to the roles and is kept as on disk.
+ENGINE_TOP_FIELDS = ("current_stage", "budget")
+ENGINE_STAGE_FIELDS = ("status", "gate_passed")
+
+
 class State:
     def __init__(self, path: Path, data: dict) -> None:
         self.path = Path(path)
@@ -32,7 +39,35 @@ class State:
         with open(p, encoding="utf-8") as f:
             return cls(p, json.load(f))
 
+    def _merge_with_disk(self) -> dict:
+        """Return the file's current content with the engine-owned fields taken from memory."""
+        try:
+            with open(self.path, encoding="utf-8") as f:
+                disk = json.load(f)
+        except (FileNotFoundError, json.JSONDecodeError):
+            return self.data          # nothing usable on disk: memory is the only copy
+        if not isinstance(disk, dict):
+            return self.data
+        merged = dict(disk)
+        for key in ENGINE_TOP_FIELDS:
+            if key in self.data:
+                merged[key] = self.data[key]
+        activity = dict(disk.get("activity") or {})
+        activity.update(self.data.get("activity") or {})
+        merged["activity"] = activity
+        disk_stages = disk.get("stages") or {}
+        stages = {}
+        for sid, mine in self.stages.items():          # the engine's stage order is kept
+            st = dict(disk_stages.get(sid) or mine)
+            for key in ENGINE_STAGE_FIELDS:
+                if key in mine:
+                    st[key] = mine[key]
+            stages[sid] = st
+        merged["stages"] = stages
+        return merged
+
     def save(self) -> None:
+        self.data = self._merge_with_disk()
         text = json.dumps(self.data, ensure_ascii=False, indent=2)
         fd, tmp = tempfile.mkstemp(dir=str(self.path.parent), prefix=".state-", suffix=".tmp")
         try:
