@@ -19,6 +19,7 @@ Entry format: `- <what changed> (#<issue>; found in RUN-<date>-<product>)`
 - qa-test must write `qa-report.md` (commands, counts, coverage, PASS / FAIL verdict) as a required output of 6-implement; the `claude-cli` driver keeps the tail of stderr in `runs.jsonl` when a call fails (#3; found in RUN-2026-11-08-habit-tracker).
 - Feedback loop: the evaluator writes `retrospective.md` (framework findings with evidence, proposals only) as a required output of 8-evaluation; CLAUDE.md and `benchmarks/README.md` describe the triage → issue → fix → CHANGELOG steps (#4; found in RUN-2026-11-08-habit-tracker).
 - Assumption checkpoints in conversation mode: after 1-intake and 3-requirements the orchestrator shows the unconfirmed assumptions and continues only after the customer confirms or corrects them; assumptions now carry an ID and a status (#5; found in RUN-2026-11-08-habit-tracker).
+- GitHub Pages deployment for static sites: stack-advisor decides `release_target` with a static-site test in 5-architecture; release-manager prepares and runs `framework/templates/deploy/github-pages.yml`, enables Pages, checks the live URL and records it (#10; requested for the next trial run, modelled on the `astrology` product).
 
 ### Changed
 - The product template's 6-implement now names the TDD relay `test-author+implementer+refactorer+qa-test` and describes the per-unit loop, matching `pipeline.yaml`; the engine runs one pass of each role for now (per-unit loop tracked in #9) (#6; found in RUN-2026-11-08-habit-tracker).

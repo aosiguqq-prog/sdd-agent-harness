@@ -6,6 +6,11 @@
 - Profile: `stacks/<profile>`
 - Rationale (with reference to the NFRs):
 
+## Release target
+- Target: `github-pages` (static site) / `github-repo` (source only)
+- Static-site test (all must hold for `github-pages`): output is files only · no own back end · no run-time secret · external APIs work from the browser without a proxy
+- For `github-pages`: base path `/<repo>/`, routing (hash routes or `404.html` fallback)
+
 ## Candidate comparison
 | Candidate | Fit | Ecosystem / familiarity | Risk | Verdict |
 |-----------|-----|-------------------------|------|---------|

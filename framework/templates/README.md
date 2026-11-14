@@ -18,6 +18,7 @@ Standard templates for each stage's artifacts. Roles fill them in, so artifacts 
 | `evaluation-report.md` | 8 | Process and product evaluation report |
 | `08-retrospective.md` | 8 | Framework findings from this run, for human triage into issues |
 | `07-release-notes.md` | 9 | Release notes |
+| `deploy/github-pages.yml` | 9 | GitHub Actions workflow that deploys a static site to GitHub Pages (copied into the product repository) |
 | `activity-log.md` | all | Live activity log written by the orchestrator |
 
 > ID scheme: FR / NFR (requirements) → SPEC-F/D/A/U/N (specs) → TEST (tests), traceable end to end.

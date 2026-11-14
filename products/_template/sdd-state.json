@@ -5,6 +5,8 @@
   "mode": "greenfield",
   "current_stage": "1-intake",
   "stack": null,
+  "release_target": null,
+  "release_url": null,
   "budget": {
     "max_steps": 200,
     "used_steps": 0,

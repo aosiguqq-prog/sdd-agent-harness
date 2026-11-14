@@ -50,3 +50,4 @@ pnpm add -D vitest @testing-library/react playwright @cucumber/cucumber eslint p
 - Build: `pnpm build`
 - Artifact: `dist/` (static front-end assets / Node build)
 - Versioning: semantic versioning + CHANGELOG
+- Static front end only (no back end): deploy to **GitHub Pages** with `framework/templates/deploy/github-pages.yml`; set `base: '/<repo>/'` in `vite.config.ts` and use hash routes or a `404.html` fallback for client-side routing. See release-manager, Target B.

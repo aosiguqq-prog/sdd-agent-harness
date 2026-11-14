@@ -10,7 +10,9 @@ description: Independent evaluation + release (stages 8–9). Usage: /sdd-releas
    - Build / package with the selected stack and produce the releasable artifact.
    - Generate `release-notes.md`, update `CHANGELOG.md`, and set the semantic version and tag.
    - Produce the release checklist (artifacts, rollback plan, known issues).
+   - Static site (`release_target: github-pages`): prepare the GitHub Pages workflow and check the base path (release-manager, Target B).
 3. **Human gate**: show the customer a preview and wait for explicit approval before pushing or deploying.
 
 Never deploy to production automatically; irreversible actions are executed only after the customer confirms.
+After approval, for GitHub Pages: push, enable Pages, and check that the live URL loads.
 Update `sdd-state.json`: `8-evaluation` and `9-release` done.

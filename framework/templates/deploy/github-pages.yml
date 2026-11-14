@@ -1,0 +1,56 @@
+# GitHub Actions workflow: test, build and deploy a static site to GitHub Pages.
+# Copied by release-manager into the PRODUCT repository as .github/workflows/deploy-pages.yml
+# (see framework/agents/release-manager.md, "Target B").
+#
+# Adjust before use:
+#   - BUILD_DIR: the folder the build writes (Vite: dist).
+#   - The install / test / build commands, if the product does not use npm.
+#   - A site with no build step: delete the Node steps and set BUILD_DIR to the folder that holds index.html.
+# Requires, in the product repository: Settings > Pages > Source = "GitHub Actions"
+# (release-manager enables it with: gh api -X POST repos/<owner>/<repo>/pages -f build_type=workflow).
+
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:          # allows a manual re-run from the Actions tab
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:                  # one deployment at a time; never cancel one that is running
+  group: pages
+  cancel-in-progress: false
+
+env:
+  BUILD_DIR: dist
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npm test --if-present   # CI=true is set on GitHub, so Vitest runs once; a failing test stops the deployment
+      - run: npm run build
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: ${{ env.BUILD_DIR }}
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v5

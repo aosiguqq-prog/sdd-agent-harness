@@ -14,6 +14,13 @@
 
 ## Known issues and limitations
 
+## Deployment
+- Target: GitHub repository / GitHub Pages
+- Repository:
+- Live URL (GitHub Pages):
+- How it deploys: (e.g. every push to `main` runs `.github/workflows/deploy-pages.yml`)
+- Checked after deployment: (URL answers 200, main screen loads)
+
 ## Upgrade / rollback
 - Upgrade steps:
 - Rollback plan:

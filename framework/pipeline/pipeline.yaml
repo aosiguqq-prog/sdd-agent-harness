@@ -112,7 +112,7 @@ stages:
     gate:
       type: human               # the only mandatory human gate
       human_gate: release-preview
-      checklist: [customer previewed the product and approved, release target decided (GitHub source push first), version decided]
+      checklist: [customer previewed the product and approved, release target confirmed (static site -> GitHub Pages; otherwise GitHub source push), version decided, for GitHub Pages: live URL answers]
 
 # Change mode: no need to start from 0. The orchestrator picks the entry stage from the impact analysis,
 # usually 3-requirements or 4-spec, re-runs the affected stages -> 6 implement -> qa-test regression -> 7/8 -> 9 release a new version.
